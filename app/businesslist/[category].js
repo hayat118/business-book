@@ -21,6 +21,7 @@ const BusinessListByCategory = () => {
   }, []);
 
   //   get the business list by category
+
   const getBusinessList = async () => {
     setLoading(true);
 
@@ -34,8 +35,7 @@ const BusinessListByCategory = () => {
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        // console.log(doc.data(), "abcd");
-        setBusinessList((prev) => [...prev, doc.data()]);
+        setBusinessList((prev) => [...prev, { id: doc?.id, ...doc.data() }]);
       });
       setLoading(false);
     } catch (error) {
