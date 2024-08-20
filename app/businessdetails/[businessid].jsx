@@ -6,6 +6,7 @@ import { db } from "../../configs/FirebaseConfig";
 // import BusinessListCard from "../../components/BusinessList/BusinessListCard";
 import { Colors } from "../../constants/Colors";
 import Intro from "../../components/BusinessDetails/Intro";
+import ActionButton from "../../components/BusinessDetails/ActionButton";
 
 const BusinessDetails = () => {
   const { businessid } = useLocalSearchParams();
@@ -52,6 +53,7 @@ const BusinessDetails = () => {
           {/* Intro */}
           <Intro business={business} />
           {/* Action Button */}
+          <ActionButton business={business} />
           {/* About Section */}
         </View>
       )}
