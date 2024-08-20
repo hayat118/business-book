@@ -1,9 +1,11 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import { useRouter } from "expo-router";
 
 const BusinessListCard = ({ business }) => {
+  const router = useRouter();
   return (
-    <View
+    <TouchableOpacity
       style={{
         padding: 10,
         borderRadius: 15,
@@ -13,6 +15,7 @@ const BusinessListCard = ({ business }) => {
         flexDirection: "row",
         gap: 10,
       }}
+      onPress={() => router.push("/businessdetails/" + business.id)}
     >
       <Image
         source={{ uri: business.imageUrl }}
@@ -63,7 +66,7 @@ const BusinessListCard = ({ business }) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
