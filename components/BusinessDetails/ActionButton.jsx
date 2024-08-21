@@ -1,4 +1,11 @@
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import React from "react";
 
 const ActionButton = ({ business }) => {
@@ -13,13 +20,14 @@ const ActionButton = ({ business }) => {
       id: 2,
       name: "Location",
       icon: require("../../assets/images/placeholder.png"),
-      url: "tel:" + business?.contact,
+      url:
+        "https://www.google.com/maps/search/?api=1&query=" + business?.contact,
     },
     {
       id: 3,
       name: "Web",
       icon: require("../../assets/images/web.png"),
-      url: "tel:" + business?.contact,
+      url: business?.webSite,
     },
     {
       id: 4,
@@ -28,6 +36,13 @@ const ActionButton = ({ business }) => {
       url: "tel:" + business?.contact,
     },
   ];
+
+  const OnPressHandle = (item) => {
+    if (item.name === "Share" || item.name === "Web") {
+      return;
+    }
+    Linking.openURL(item.url);
+  };
   return (
     <View
       style={{
@@ -39,7 +54,7 @@ const ActionButton = ({ business }) => {
         columnWrapperStyle={{ justifyContent: "space-between" }}
         data={actionButtonMenu}
         renderItem={({ item, index }) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => OnPressHandle(item)}>
             <Image
               source={item?.icon}
               key={index}
