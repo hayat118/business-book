@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  SafeAreaView,
 } from "react-native";
 import React from "react";
 
@@ -49,7 +50,7 @@ const ActionButton = ({ business }) => {
         padding: 20,
       }}
     >
-      <FlatList
+      <SafeAreaView
         numColumns={4}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         data={actionButtonMenu}
