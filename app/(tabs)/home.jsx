@@ -10,7 +10,6 @@ const home = () => {
     <ScrollView>
       {/* Header */}
       <Header />
-
       {/* Slide */}
       <Slider />
       {/* Category */}
