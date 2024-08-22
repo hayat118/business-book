@@ -2,9 +2,11 @@ import {
   View,
   Text,
   ActivityIndicator,
-  ScrollView,
+  //   ScrollView,
   SafeAreaView,
 } from "react-native";
+import { ScrollView } from "react-native-virtualized-view";
+
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { collection, doc, getDoc } from "firebase/firestore";

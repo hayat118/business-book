@@ -6,6 +6,7 @@ import {
   ToastAndroid,
   FlatList,
   SafeAreaView,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
@@ -73,7 +74,6 @@ const Reviews = ({ business }) => {
             padding: 5,
             borderRadius: 10,
             marginTop: 10,
-            marginBottom: 100,
           }}
         >
           <Text
@@ -92,10 +92,53 @@ const Reviews = ({ business }) => {
 
       <View>
         {business?.reviews?.map((item, index) => {
-          console.log(item.comment, "com");
-          <View>
-            <Text>{item.comment}</Text>
-          </View>;
+          return (
+            <View
+              key={index}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+                // alignItems: "center",
+                padding: 20,
+                borderWidth: 0.5,
+                borderColor: "gray",
+                marginTop: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Image
+                source={{ uri: item.userImage }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 99,
+                }}
+              />
+              <View
+                style={{
+                  display: "flex",
+                  gap: 5,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "outfit-medium",
+                  }}
+                >
+                  {item.userName}
+                </Text>
+                <Rating
+                  imageSize={20}
+                  ratingCount={item.rating}
+                  style={{
+                    alignItems: "flex-start",
+                  }}
+                />
+                <Text>{item.comment}</Text>
+              </View>
+            </View>
+          );
         })}
       </View>
     </View>

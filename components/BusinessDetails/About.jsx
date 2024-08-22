@@ -6,8 +6,8 @@ const About = ({ business }) => {
     <View
       style={{
         padding: 20,
+
         backgroundColor: "white",
-        // height: "100%",
       }}
     >
       <Text

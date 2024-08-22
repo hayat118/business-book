@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   SafeAreaView,
+  Share,
 } from "react-native";
 import React from "react";
 
@@ -40,6 +41,13 @@ const ActionButton = ({ business }) => {
 
   const OnPressHandle = (item) => {
     if (item.name === "Share" || item.name === "Web") {
+      Share.share({
+        message:
+          business?.name +
+          "\n Address:" +
+          business.address +
+          "\n Find more details on Business Book App",
+      });
       return;
     }
     Linking.openURL(item.url);
@@ -50,7 +58,7 @@ const ActionButton = ({ business }) => {
         padding: 20,
       }}
     >
-      <SafeAreaView
+      <FlatList
         numColumns={4}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         data={actionButtonMenu}
