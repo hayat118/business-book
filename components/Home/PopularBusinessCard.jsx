@@ -1,10 +1,14 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { Colors } from "../../constants/Colors";
+import { useRouter } from "expo-router";
 
 const PopularBusinessCard = ({ business }) => {
+  const router = useRouter();
   return (
-    <View
+    // solve this {onpress} to link to details the business
+    <TouchableOpacity
+      // onPress={() => router.push("/businessdetails/" + business?.id)}
       style={{
         marginLeft: 20,
         padding: 10,
@@ -88,7 +92,7 @@ const PopularBusinessCard = ({ business }) => {
           {business.category}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
