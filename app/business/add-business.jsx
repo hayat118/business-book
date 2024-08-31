@@ -4,8 +4,9 @@ import { useNavigation } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import RNPickerSelect from "react-native-picker-select";
 import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "../../configs/FirebaseConfig";
+import { db, storage } from "../../configs/FirebaseConfig";
 import { Colors } from "../../constants/Colors";
+import { ref, uploadBytes } from "firebase/storage";
 
 const addBusiness = () => {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ const addBusiness = () => {
     });
     GetCategoryList();
   }, []);
+  //
 
   const onImagePick = async () => {
     // No permissions request is necessary for launching the image library
@@ -53,6 +55,22 @@ const addBusiness = () => {
             value: doc.data().name,
           },
         ]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //
+  const onAddNewBusiness = async () => {
+    try {
+      const fileName = Date.now().toString() + ".jpg";
+      const res = await fetch(image);
+
+      const blob = await res.blob();
+      const imageRef = ref(storage, "business-app" + fileName);
+
+      await uploadBytes(imageRef, blob).then((snapshot) => {
+        console.log("File Uploaded...");
       });
     } catch (error) {
       console.log(error);
@@ -208,6 +226,7 @@ const addBusiness = () => {
           borderRadius: 5,
           marginTop: 20,
         }}
+        onPress={() => onAddNewBusiness()}
       >
         <Text
           style={{
