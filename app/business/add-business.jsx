@@ -1,4 +1,12 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ToastAndroid,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
@@ -6,9 +14,12 @@ import RNPickerSelect from "react-native-picker-select";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db, storage } from "../../configs/FirebaseConfig";
 import { Colors } from "../../constants/Colors";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useUser } from "@clerk/clerk-expo";
+import { doc, setDoc } from "firebase/firestore";
 
 const addBusiness = () => {
+  const { user } = useUser();
   const navigation = useNavigation();
   const [image, setImage] = useState(null);
   const [categoryList, setCategoryList] = useState([]);
@@ -18,6 +29,7 @@ const addBusiness = () => {
   const [website, setWebsite] = useState();
   const [about, setAbout] = useState();
   const [category, setCategory] = useState();
+  const [laoding, setLoading] = useState(false);
 
   //
   useEffect(() => {
@@ -62,6 +74,7 @@ const addBusiness = () => {
   };
   //
   const onAddNewBusiness = async () => {
+    setLoading(true);
     try {
       const fileName = Date.now().toString() + ".jpg";
       const res = await fetch(image);
@@ -69,9 +82,39 @@ const addBusiness = () => {
       const blob = await res.blob();
       const imageRef = ref(storage, "business-app" + fileName);
 
-      await uploadBytes(imageRef, blob).then((snapshot) => {
-        console.log("File Uploaded...");
+      await uploadBytes(imageRef, blob)
+        .then((snapshot) => {
+          console.log("File Uploaded...");
+        })
+        .then((res) => {
+          getDownloadURL(imageRef).then(async (downloadUrl) => {
+            console.log(downloadUrl);
+            saveBusinessDetails(downloadUrl);
+          });
+        });
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //
+  const saveBusinessDetails = async (imageUrl) => {
+    try {
+      await setDoc(doc(db, "CategoryList", Date.now().toString()), {
+        name: name,
+        address: address,
+        contact: contact,
+        about: about,
+        website: website,
+        category: category,
+        username: user?.fullName,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        userImage: user?.imageUrl,
+        imageUrl: imageUrl,
       });
+      setLoading(false);
+      ToastAndroid.show("New Business Added...", ToastAndroid.LONG);
     } catch (error) {
       console.log(error);
     }
@@ -220,6 +263,7 @@ const addBusiness = () => {
         />
       </View>
       <TouchableOpacity
+        disabled={laoding}
         style={{
           padding: 15,
           backgroundColor: Colors.Primary,
@@ -228,16 +272,20 @@ const addBusiness = () => {
         }}
         onPress={() => onAddNewBusiness()}
       >
-        <Text
-          style={{
-            fontFamily: "outfit",
-            fontSize: 16,
-            textAlign: "center",
-            color: "white",
-          }}
-        >
-          Add New Business
-        </Text>
+        {laoding ? (
+          <ActivityIndicator size={"large"} color={"white"} />
+        ) : (
+          <Text
+            style={{
+              fontFamily: "outfit",
+              fontSize: 16,
+              textAlign: "center",
+              color: "white",
+            }}
+          >
+            Add New Business
+          </Text>
+        )}
       </TouchableOpacity>
     </View>
   );
