@@ -1,10 +1,48 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Alert,
+  ToastAndroid,
+} from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import { db } from "../../configs/FirebaseConfig";
+import { doc, deleteDoc } from "firebase/firestore";
+import { useUser } from "@clerk/clerk-expo";
 
 const Intro = ({ business }) => {
   const router = useRouter();
+  const { user } = useUser();
+
+  //
+  const onDelete = () => {
+    Alert.alert("Do you want to delete?", "Are you sure?", [
+      {
+        text: "Cancel",
+        style: "cancle",
+      },
+      {
+        text: "Delete",
+        style: "destrutive",
+        onPress: () => deleteBusiness(),
+      },
+    ]);
+  };
+
+  const deleteBusiness = async () => {
+    try {
+      await deleteDoc(doc(db, "CategoryList", business?.id));
+      router.back();
+      ToastAndroid.show("Business Dleted!", ToastAndroid.LONG);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //
   return (
     <View>
       <View
@@ -39,14 +77,29 @@ const Intro = ({ business }) => {
           borderTopRightRadius: 25,
         }}
       >
-        <Text
+        <View
           style={{
-            fontFamily: "outfit-medium",
-            fontSize: 20,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
           }}
         >
-          {business.name}
-        </Text>
+          <Text
+            style={{
+              fontFamily: "outfit-medium",
+              fontSize: 20,
+            }}
+          >
+            {business.name}
+          </Text>
+          {user?.primaryEmailAddress?.emailAddress ==
+            business?.emailAddress && (
+            <TouchableOpacity onPress={() => onDelete()}>
+              <Ionicons name="trash" size={24} color="red" />
+            </TouchableOpacity>
+          )}
+        </View>
+
         <Text
           style={{
             fontFamily: "outfit",
