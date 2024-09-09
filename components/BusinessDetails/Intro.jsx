@@ -10,7 +10,7 @@ import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import { db } from "../../configs/FirebaseConfig";
-import { doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "@firebase/firestore";
 import { useUser } from "@clerk/clerk-expo";
 
 const Intro = ({ business }) => {

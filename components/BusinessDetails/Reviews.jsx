@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import { Rating } from "react-native-ratings";
 import { Colors } from "../../constants/Colors";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "@firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
 import { useUser } from "@clerk/clerk-expo";
 
