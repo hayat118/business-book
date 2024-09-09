@@ -14,7 +14,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { collection, getDocs, query } from "@firebase/firestore";
 import { db, storage } from "../../configs/FirebaseConfig";
 import { Colors } from "../../constants/Colors";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 import { useUser } from "@clerk/clerk-expo";
 import { doc, setDoc } from "@firebase/firestore";
 
