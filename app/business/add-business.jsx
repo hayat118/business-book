@@ -74,8 +74,8 @@ const addBusiness = () => {
   };
   //
   const onAddNewBusiness = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const fileName = Date.now().toString() + ".jpg";
       const res = await fetch(image);
 
