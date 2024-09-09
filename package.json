@@ -17,6 +17,7 @@
   "dependencies": {
     "@clerk/clerk-expo": "^2.0.1",
     "@expo/vector-icons": "^14.0.2",
+    "@firebase/firestore": "^4.7.1",
     "@firebase/storage": "^0.13.0",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.24",

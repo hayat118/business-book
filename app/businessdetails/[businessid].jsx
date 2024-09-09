@@ -9,7 +9,7 @@ import { ScrollView } from "react-native-virtualized-view";
 
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc } from "@firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
 import { Colors } from "../../constants/Colors";
 import Intro from "../../components/BusinessDetails/Intro";

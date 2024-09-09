@@ -11,12 +11,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import RNPickerSelect from "react-native-picker-select";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query } from "@firebase/firestore";
 import { db, storage } from "../../configs/FirebaseConfig";
 import { Colors } from "../../constants/Colors";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useUser } from "@clerk/clerk-expo";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "@firebase/firestore";
 
 const addBusiness = () => {
   const { user } = useUser();

@@ -2,7 +2,7 @@ import { View, Text, FlatList } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/clerk-expo";
 import { db } from "../../configs/FirebaseConfig";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "@firebase/firestore";
 import BusinessListCard from "../../components/BusinessList/BusinessListCard";
 import { useNavigation } from "expo-router";
 import { Colors } from "../../constants/Colors";

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import { Colors } from "../../constants/Colors";
 import Category from "../../components/Home/Category";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../configs/FirebaseConfig";
 import ExploreBusinessList from "../../components/Explore/ExploreBusinessList";
 
