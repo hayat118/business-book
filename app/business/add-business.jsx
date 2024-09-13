@@ -37,9 +37,9 @@ const addBusiness = () => {
       headerTitle: "Add New Business",
       headerShown: true,
     });
+
     GetCategoryList();
   }, []);
-  //
 
   const onImagePick = async () => {
     // No permissions request is necessary for launching the image library
@@ -59,7 +59,6 @@ const addBusiness = () => {
       const snapShot = await getDocs(q);
 
       snapShot.forEach((doc) => {
-        // console.log(doc.data());
         setCategoryList((prev) => [
           ...prev,
           {
@@ -74,27 +73,63 @@ const addBusiness = () => {
   };
   //
   const onAddNewBusiness = async () => {
+    // try {
+    //   setLoading(true);
+    //   //
+    //   if (!image) {
+    //     throw new Error("No image provided");
+    //   }
+    //   //
+    //   const fileName = Date.now().toString() + ".jpg";
+    //   const res = await fetch(image);
+
+    //   const blob = await res.blob();
+    //   const imageRef = ref(storage, "business-app" + fileName);
+
+    //   await uploadBytes(imageRef, blob)
+    //     .then((snapshot) => {
+    //       console.log("File Uploaded...");
+    //     })
+    //     .then((res) => {
+    //       getDownloadURL(imageRef).then(async (downloadUrl) => {
+    //         console.log(downloadUrl);
+    //         saveBusinessDetails(downloadUrl);
+    //       });
+    //     });
+    //   setLoading(false);
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
       setLoading(true);
+
+      if (!image) {
+        throw new Error("No image provided"); // Check if the image is valid
+      }
+
       const fileName = Date.now().toString() + ".jpg";
       const res = await fetch(image);
 
-      const blob = await res.blob();
-      const imageRef = ref(storage, "business-app" + fileName);
+      if (!res.ok) {
+        throw new Error("Failed to fetch the image"); // Handle fetch error
+      }
 
-      await uploadBytes(imageRef, blob)
-        .then((snapshot) => {
-          console.log("File Uploaded...");
-        })
-        .then((res) => {
-          getDownloadURL(imageRef).then(async (downloadUrl) => {
-            console.log(downloadUrl);
-            saveBusinessDetails(downloadUrl);
-          });
-        });
-      setLoading(false);
+      const blob = await res.blob();
+      const imageRef = ref(storage, "business-app/" + fileName); // Fix path with a trailing "/"
+
+      await uploadBytes(imageRef, blob);
+      console.log("File Uploaded...");
+
+      const downloadUrl = await getDownloadURL(imageRef);
+      console.log(downloadUrl);
+
+      // Save the business details with the image URL
+      await saveBusinessDetails(downloadUrl);
+
+      setLoading(false); // Stop loading indicator
     } catch (error) {
-      console.log(error);
+      console.log("Error:", error.message || error);
+      setLoading(false); // Ensure loading stops even on error
     }
   };
 
@@ -179,6 +214,7 @@ const addBusiness = () => {
       </TouchableOpacity>
       <View>
         <TextInput
+          required
           placeholder="Name"
           onChangeText={(value) => setName(value)}
           style={{
@@ -192,6 +228,7 @@ const addBusiness = () => {
           }}
         />
         <TextInput
+          required
           placeholder="Address"
           onChangeText={(value) => setAddress(value)}
           style={{
